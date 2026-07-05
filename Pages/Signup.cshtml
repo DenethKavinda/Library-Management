@@ -7,95 +7,109 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<div class="min-h-screen font-sans antialiased flex flex-col justify-between relative bg-cover bg-center bg-no-repeat"
+<div class="min-h-screen font-sans antialiased flex flex-col justify-between relative bg-cover bg-center bg-no-repeat bg-fixed" 
      style="background-image: url('/images/library-bg.jpg');">
-
+    
     <div class="absolute inset-0 bg-white/80 backdrop-blur-[2px] z-0"></div>
 
     <header class="w-full bg-white/90 border-b border-slate-200/80 sticky top-0 z-50 shadow-sm backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="/" class="flex items-center space-x-3">
-                <div
-                    class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M12 21V4.5l7.5-3v16.5L12 21zm0 0L4.5 18V1.5l7.5 3V21z" />
+                <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-md">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21V4.5l7.5-3v16.5L12 21zm0 0L4.5 18V1.5l7.5 3V21z" />
                     </svg>
                 </div>
-                <span
-                    class="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">Sarasavi
-                    Library</span>
-                </a>
-                <a href="/" class="text-sm font-medium text-slate-600 hover:text-blue-700 transition-colors">Back 
-                    </a>
-                </div>
-            </header>
+                <span class="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">Sarasavi Library</span>
+            </a>
+            <a href="/" class="text-sm font-medium text-slate-600 hover:text-blue-700 transition-colors">Back to Home</a>
+        </div>
+    </header>
 
-            <main class="flex-grow flex items-center justify-center px-4 py-12 z-10">
-                <div
-                    class="max-w-xl w-full bg-white/50 border border-white/70 p-8 sm:p-10 rounded-3xl backdrop-blur-md shadow-xl">
-                    <div class="text-center space-y-2 mb-8">
-                        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Create Account</h1>
-                        <p class="text-sm text-slate-500 font-light">Join the Sarasavi Library network system catalog today.</p>
+    <main class="flex-grow flex items-center justify-center px-4 py-12 z-10">
+        <div class="max-w-xl w-full bg-white/50 border border-white/70 p-8 sm:p-10 rounded-3xl backdrop-blur-md shadow-xl">
+            <div class="text-center space-y-2 mb-8">
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Create Account</h1>
+                <p class="text-sm text-slate-500 font-light">Join the Sarasavi Library network system catalog today.</p>
+            </div>
+
+            @if (!ModelState.IsValid && HttpContext.Request.Method == "POST")
+            {
+                <div class="p-4 mb-6 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-medium">
+                    <div asp-validation-summary="All"></div>
+                </div>
+            }
+
+            <form method="post" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Full Name</label>
+                    <input type="text" asp-for="RegisterInput.FullName" placeholder="e.g., John Doe" 
+                           class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium" required />
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Sex</label>
+                        <select asp-for="RegisterInput.Sex" class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
                     </div>
 
-                    @if (!ModelState.IsValid && HttpContext.Request.Method == "POST")
-                    {
-                        <div class="p-4 mb-6 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-medium">
-                            <div asp-validation-summary="All"></div>
-                        </div>
-                    }
-
-                    <form method="post" class="space-y-5">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Full
-                                Name</label>
-                                <input type="text" asp-for="RegisterInput.FullName" placeholder="e.g., John Doe"
-                                       class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                                       required />
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label
-                                    class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Sex</label>
-                                    <select asp-for="RegisterInput.Sex"
-                                            class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                                            required>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">NIC
-                                        Number</label>
-                                        <input type="text" asp-for="RegisterInput.NIC" placeholder="e.g., 199912345678 or 991234567V"
-                                               class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium uppercase"
-                                               required />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label
-                                    class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Address</label>
-                                    <textarea asp-for="RegisterInput.Address" rows="3"
-                                              placeholder="Enter your current structural residency details..."
-                                              class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium resize-none"
-                                              required></textarea>
-                                </div>
-
-                                <button type="submit"
-                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl shadow-md transition-all duration-200 mt-2">
-                                    Complete Registration
-                                </button>
-                            </form>
-                        </div>
-                    </main>
-
-                    <footer
-                        class="w-full bg-white/95 border-t border-slate-200 py-4 text-center text-xs text-slate-500 z-10 backdrop-blur-sm">
-                        &copy; @DateTime.Now.Year Sarasavi Library System. All rights reserved.
-                    </footer>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">NIC Number</label>
+                        <input type="text" asp-for="RegisterInput.NIC" placeholder="e.g., 991234567V" 
+                               class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium uppercase" required />
+                    </div>
                 </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Address</label>
+                    <textarea asp-for="RegisterInput.Address" rows="3" placeholder="Enter your current address details..." 
+                              class="w-full px-4 py-3 bg-white/80 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium resize-none" required></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl shadow-md transition-all duration-200 mt-2">
+                    Complete Registration
+                </button>
+            </form>
+        </div>
+    </main>
+
+    @if (TempData["UserNumber"] != null)
+    {
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+            <div class="bg-white max-w-md w-full p-8 rounded-3xl shadow-2xl border border-slate-100 text-center space-y-6 transform scale-100 transition-all">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 text-emerald-600">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                </div>
+                
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold text-slate-900">Registration Successful!</h3>
+                    <p class="text-xs text-slate-500 font-light">Please save your credentials below to log in to your account.</p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 text-left">
+                    <div>
+                        <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">User Number</span>
+                        <span class="font-mono text-base font-bold text-blue-700">@TempData["UserNumber"]</span>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200">
+                        <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">NIC Number</span>
+                        <span class="font-mono text-sm font-semibold text-slate-700">@TempData["UserNIC"]</span>
+                    </div>
+                </div>
+
+                <a href="/Login" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow transition-all">
+                    Proceed to Log In
+                </a>
+            </div>
+        </div>
+    }
+
+    <footer class="w-full bg-white/95 border-t border-slate-200 py-4 text-center text-xs text-slate-500 z-10 backdrop-blur-sm">
+        &copy; @DateTime.Now.Year Sarasavi Library System. All rights reserved.
+    </footer>
+</div>

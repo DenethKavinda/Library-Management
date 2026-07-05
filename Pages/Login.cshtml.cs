@@ -1,5 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SarasaviLibrary.Data;
@@ -22,38 +26,77 @@ namespace SarasaviLibrary.Pages
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            string cleanUserNumber = LoginInput.UserNumber.Trim().ToUpper();
-            string cleanNIC = LoginInput.NIC.Trim().ToUpper();
+            string inputUser = LoginInput.UserNumber.Trim();
+            string inputNIC = LoginInput.NIC.Trim();
 
-            // Validate that the user matches BOTH conditions inside your SQL Database
-            var validUser = _context.Users.FirstOrDefault(u =>
-                u.UserNumber.ToUpper() == cleanUserNumber &&
-                u.NIC.ToUpper() == cleanNIC);
+            List<Claim> claims;
+            string detectedRole = "";
 
-            if (validUser == null)
+            // 💡 BRANCH 1: Check against hardcoded Librarian Seed Credentials
+            if (inputUser.ToLower() == "admin" && inputNIC == "1234")
             {
-                ModelState.AddModelError(string.Empty, "Invalid User Number or NIC matching records not found.");
-                return Page();
+                detectedRole = "Librarian";
+                claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, "System Librarian"),
+                    new Claim(ClaimTypes.Role, "Librarian")
+                };
+            }
+            // 💡 BRANCH 2: Fallback validation checking against SarasaviLibraryDB Users table
+            else
+            {
+                var validUser = _context.Users.FirstOrDefault(u =>
+                    u.UserNumber.ToUpper() == inputUser.ToUpper() &&
+                    u.NIC.ToUpper() == inputNIC.ToUpper());
+
+                if (validUser != null)
+                {
+                    detectedRole = "User";
+                    claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, validUser.FullName),
+                        new Claim(ClaimTypes.Role, "User"),
+                        new Claim("UserNumber", validUser.UserNumber)
+                    };
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login credentials. Please try again.");
+                    return Page();
+                }
             }
 
-            // Successful authorization verification path -> Send over to user home
-            return RedirectToPage("/Users/Home");
+            // 💡 BUILD INTERNAL IDENTITY TICKET AND COOKIE AUTHORIZATION LOCK
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties { IsPersistent = true };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            // 💡 REDIRECT ROUTING BASED ON THE ASSIGNED ROLE
+            if (detectedRole == "Librarian")
+            {
+                return RedirectToPage("/Librarian/Index");
+            }
+            else
+            {
+                return RedirectToPage("/Users/Home");
+            }
         }
     }
 
     public class UserLoginInput
     {
-        [Required(ErrorMessage = "User registration account number is required.")]
+        [Required(ErrorMessage = "Enter User Number (or 'admin' for staff)")]
         public string UserNumber { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "NIC context validation identity number is required.")]
+        [Required(ErrorMessage = "Enter NIC Number (or '1234' for staff)")]
         public string NIC { get; set; } = string.Empty;
     }
 }

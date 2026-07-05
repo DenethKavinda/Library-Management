@@ -6,6 +6,7 @@ using SarasaviLibrary.Data;
 
 namespace SarasaviLibrary.Pages
 {
+
     public class IndexModel : PageModel
     {
         private readonly AppDbContext _context;

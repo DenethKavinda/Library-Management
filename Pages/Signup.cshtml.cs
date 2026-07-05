@@ -30,7 +30,6 @@ namespace SarasaviLibrary.Pages
                 return Page();
             }
 
-            // 1. Enforce unique NIC verification checks inside SarasaviLibraryDB
             bool nicExists = _context.Users.Any(u => u.NIC.ToUpper() == RegisterInput.NIC.Trim().ToUpper());
             if (nicExists)
             {
@@ -38,10 +37,9 @@ namespace SarasaviLibrary.Pages
                 return Page();
             }
 
-            // 2. Automated Auto-Increment custom format generation ("REG - 00000001")
             int nextSequentialId = 1;
             var lastUserRecord = _context.Users
-                .ToList() // Safeguards string parsing metrics inside local stack memory allocations
+                .ToList()
                 .OrderByDescending(u => u.UserNumber)
                 .FirstOrDefault();
 
@@ -56,7 +54,6 @@ namespace SarasaviLibrary.Pages
 
             string generatedUserNumber = $"REG - {nextSequentialId:D8}";
 
-            // 3. Save User metadata down onto DB instance
             var newUser = new User
             {
                 UserNumber = generatedUserNumber,
@@ -70,9 +67,15 @@ namespace SarasaviLibrary.Pages
             _context.Users.Add(newUser);
             _context.SaveChanges();
 
-            // Store message output context and route over to display completion notification feedback
-            TempData["SuccessMessage"] = $"Registration successful! Your Membership Number is: {generatedUserNumber}";
-            return RedirectToPage("/Index");
+            // 💡 Save variables inside TempData to trigger the modal popup state on the front-end view
+            TempData["UserNumber"] = generatedUserNumber;
+            TempData["UserNIC"] = newUser.NIC;
+
+            // Clear input model fields so the form goes back to clean default states behind the modal overlay
+            RegisterInput = new UserSignupInput();
+            ModelState.Clear();
+
+            return Page();
         }
     }
 
@@ -86,7 +89,6 @@ namespace SarasaviLibrary.Pages
         public string Sex { get; set; } = "Male";
 
         [Required(ErrorMessage = "NIC validation number is required.")]
-        // Validates both classic 9-digit + V layout format or modern 12-digit numeric configurations
         [RegularExpression(@"^(?:\d{9}[vVxX]|\d{12})$", ErrorMessage = "Please enter a valid National Identity Card (NIC) number format.")]
         public string NIC { get; set; } = string.Empty;
 
