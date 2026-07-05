@@ -141,6 +141,7 @@ D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.csproj.CoreCompile
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.MvcApplicationPartsAssemblyInfo.cache
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.RazorAssemblyInfo.cache
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.RazorAssemblyInfo.cs
+D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.sourcelink.json
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\rjimswa.dswa.cache.json
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
@@ -222,4 +223,3 @@ D:\Projects\SarasaviLibrary\obj\Debug\net10.0\refint\SarasaviLibrary.dll
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.pdb
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.genruntimeconfig.cache
 D:\Projects\SarasaviLibrary\obj\Debug\net10.0\ref\SarasaviLibrary.dll
-D:\Projects\SarasaviLibrary\obj\Debug\net10.0\SarasaviLibrary.sourcelink.json
