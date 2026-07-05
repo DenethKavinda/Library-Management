@@ -61,6 +61,31 @@ namespace SarasaviLibrary.Data
         public DateTime ReturnedDate { get; set; } = DateTime.Now;
     }
 
+    public class Inquiry
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        public string UserNumber { get; set; } = string.Empty;
+
+        [Required]
+        public string FullName { get; set; } = string.Empty;
+
+        [Required]
+        public string NIC { get; set; } = string.Empty;
+
+        [Required]
+        public string Subject { get; set; } = string.Empty;
+
+        [Required]
+        public string Message { get; set; } = string.Empty;
+
+        public DateTime SubmittedDate { get; set; } = DateTime.Now;
+
+        public string Status { get; set; } = "Pending"; // Pending, Reviewed, Resolved
+    }
+
     // Set up the Entity Framework database context
     public class AppDbContext : DbContext
     {
@@ -71,5 +96,6 @@ namespace SarasaviLibrary.Data
         public DbSet<Reservation> Reservations { get; set; } // 💡 Registered table map
         public DbSet<Loan> Loans { get; set; }
         public DbSet<Return> Returns { get; set; }
+        public DbSet<Inquiry> Inquiries { get; set; }
     }
 }

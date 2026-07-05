@@ -1,0 +1,94 @@
+@page
+@model SarasaviLibrary.Pages.Librarian.AdminInquiryModel
+@{
+    ViewData["Title"] = "Inquiries - Sarasavi Library Admin";
+    Layout = "_LibrarianLayout";
+}
+
+<div class="space-y-6">
+    <div class="space-y-1">
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Member Support Desk</h2>
+        <p class="text-sm text-slate-500 font-medium">Review submitted inquiries and mark them as resolved once
+            addressed.</p>
+        </div>
+
+        <div class="space-y-4">
+            @if (!Model.ActiveInquiries.Any())
+            {
+                <div class="bg-white border border-slate-200 p-12 text-center rounded-2xl shadow-sm">
+                    <p class="text-slate-400 font-medium text-sm">No member inquiry tickets recorded inside the database.</p>
+                </div>
+            }
+            else
+            {
+                @foreach (var ticket in Model.ActiveInquiries)
+                {
+                    <div
+                        class="bg-white border @(ticket.Status == "Resolved" ? "border-slate-200" : "border-amber-200") p-6 rounded-2xl shadow-sm space-y-4">
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs border-b border-slate-100 pb-3">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <span class="font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded">@ticket.FullName</span>
+                                <span class="font-mono text-blue-600 font-semibold">Card: @ticket.UserNumber</span>
+                                <span class="font-mono text-slate-400">NIC: @ticket.NIC</span>
+                                <span class="text-slate-400 font-medium">Date: @ticket.SubmittedDate.ToString("yyyy-MM-dd HH:mm")</span>
+                            </div>
+                            <div>
+                                <span
+                                    class="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider @(ticket.Status == "Resolved" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-amber-50 text-amber-600 border border-amber-100")">
+                                    @ticket.Status
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <h4 class="text-base font-bold text-slate-900">Subject: @ticket.Subject</h4>
+                            <p
+                                class="text-sm text-slate-600 font-light bg-slate-50 p-4 rounded-xl border border-slate-100 whitespace-pre-line leading-relaxed">
+                                @ticket.Message</p>
+                            </div>
+
+                            <div class="flex justify-end pt-2">
+                                @if (ticket.Status != "Resolved")
+                                {
+                                    <form method="post" asp-page-handler="Resolve">
+                                        <input type="hidden" name="ticketId" value="@ticket.Id" />
+                                        <button type="submit"
+                                                class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-sm transition transform active:scale-95">
+                                            Mark as Resolved
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-xs font-bold text-emerald-600 flex items-center space-x-1">
+                                        <span>✓ Case Closed</span>
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        @if (TempData["ModalType"] != null)
+        {
+            <div id="statusModal"
+                 class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+                <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl space-y-4 border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-900">System Notification</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">@TempData["ModalMessage"]</p>
+                    <button onclick="closeModal()"
+                            class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm">Close
+                        View</button>
+                    </div>
+                </div>
+            }
+
+            <script>
+                function closeModal() {
+                    const m = document.getElementById('statusModal');
+                    if (m) { m.style.opacity = '0'; setTimeout(() => m.remove(), 150); }
+                }
+            </script>

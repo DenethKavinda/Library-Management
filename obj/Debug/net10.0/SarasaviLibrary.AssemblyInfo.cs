@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SarasaviLibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+216241cb7ea88f89588276938ab7fdbcc3649e05")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b487e2c251598d98242b844386df84e72b3c3ed")]
 [assembly: System.Reflection.AssemblyProductAttribute("SarasaviLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SarasaviLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
