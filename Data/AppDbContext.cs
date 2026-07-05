@@ -30,6 +30,37 @@ namespace SarasaviLibrary.Data
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 
+    public class Reservation
+    {
+        [Key]
+        public int ReservationId { get; set; }
+        public string ReservationCode { get; set; } = string.Empty;
+        public string UserNumber { get; set; } = string.Empty;
+        public string BookNumber { get; set; } = string.Empty;
+        public DateTime ReservedDate { get; set; } = DateTime.Now;
+        public string Status { get; set; } = "Pending"; // 💡 Added Status tracking
+    }
+
+    public class Loan
+    {
+        [Key]
+        public string LoanId { get; set; } = string.Empty;
+        public string ReservationCode { get; set; } = string.Empty;
+        public string UserNumber { get; set; } = string.Empty;
+        public string BookNumber { get; set; } = string.Empty;
+        public DateTime IssuedDate { get; set; } = DateTime.Now;
+        public DateTime DueDate { get; set; }
+        public string Status { get; set; } = "Active"; // Active, Received
+    }
+
+    public class Return
+    {
+        [Key]
+        public string ReturnCode { get; set; } = string.Empty;
+        public string LoanId { get; set; } = string.Empty;
+        public DateTime ReturnedDate { get; set; } = DateTime.Now;
+    }
+
     // Set up the Entity Framework database context
     public class AppDbContext : DbContext
     {
@@ -37,5 +68,8 @@ namespace SarasaviLibrary.Data
 
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; } // 💡 Registers the Users table setup
+        public DbSet<Reservation> Reservations { get; set; } // 💡 Registered table map
+        public DbSet<Loan> Loans { get; set; }
+        public DbSet<Return> Returns { get; set; }
     }
 }

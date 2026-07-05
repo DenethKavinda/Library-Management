@@ -1,0 +1,44 @@
+@page
+@model SarasaviLibrary.Pages.Librarian.ReturnsModel
+@{
+    ViewData["Title"] = "Process Returns Counter";
+    Layout = "_LibrarianLayout";
+}
+
+<div class="max-w-6xl mx-auto space-y-8">
+    <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Returns Processing Center</h2>
+        <p class="text-sm text-slate-500 font-light">Input generated check-in validation keys to restock inventory
+            volumes automatically.</p>
+        </div>
+
+        @if (TempData["RestockMessage"] != null)
+        {
+            <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-sm font-medium shadow-sm">
+                @TempData["RestockMessage"]
+            </div>
+        }
+        @if (TempData["ReturnErrorMessage"] != null)
+        {
+            <div class="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-sm font-medium shadow-sm">
+                @TempData["ReturnErrorMessage"]
+            </div>
+        }
+
+        <!-- Interface Entry Box Form -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm max-w-md">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Process Return Receipt</h3>
+            <form method="post" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wider">Authentication
+                        Code</label>
+                        <input type="text" name="returnCode" placeholder="Enter Return Code (e.g., RET-1234)" required
+                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-mono font-bold placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+                    </div>
+                    <button type="submit"
+                            class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-xl text-sm transition shadow-sm">
+                        Restock & Complete
+                    </button>
+                </form>
+            </div>
+        </div>

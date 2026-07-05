@@ -1,0 +1,73 @@
+@page
+@model SarasaviLibrary.Pages.Librarian.ReservationsModel
+@{
+    ViewData["Title"] = "Manage Reservations";
+    Layout = "_LibrarianLayout";
+}
+
+<div class="max-w-6xl mx-auto space-y-8">
+    <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Pending Book Reservations</h2>
+        <p class="text-sm text-slate-500 font-light">Process student collection holds and convert verified titles into
+            active physical loans.</p>
+        </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-sm font-medium shadow-sm">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-sm font-medium shadow-sm">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <!-- Verification Actions Bar -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Release Reservation Collection</h3>
+            <form method="post" class="flex gap-4 max-w-md">
+                <input type="text" name="resCode" placeholder="Enter Reservation Code (e.g., RES-12345)" required
+                       class="flex-grow px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-mono font-bold placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
+                <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition shadow-sm">
+                    Issue Loan
+                </button>
+            </form>
+        </div>
+
+        <!-- Live Queue Grid List -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr
+                        class="bg-slate-50 border-b border-slate-200 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        <th class="p-4 pl-6">Res Code</th>
+                        <th class="p-4">User Number</th>
+                        <th class="p-4">Book Number</th>
+                        <th class="p-4">Reserved Date</th>
+                        <th class="p-4 pr-6">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
+                    @foreach (var res in Model.ReservationQueue)
+                    {
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-4 pl-6 font-mono text-xs font-bold text-blue-700">@res.ReservationCode</td>
+                            <td class="p-4 font-mono text-xs">@res.UserNumber</td>
+                            <td class="p-4 font-mono text-xs">@res.BookNumber</td>
+                            <td class="p-4 text-slate-500 text-xs">@res.ReservedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td class="p-4 pr-6">
+                                <span
+                                    class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md @(res.Status == "Pending" ? "bg-amber-50 text-amber-600 border border-amber-200" : "bg-slate-50 text-slate-400 border border-slate-200")">
+                                    @res.Status
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

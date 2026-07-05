@@ -1,0 +1,85 @@
+@page
+@model SarasaviLibrary.Pages.Librarian.LoansModel
+@{
+    ViewData["Title"] = "Active Loans Tracking";
+    Layout = "_LibrarianLayout";
+}
+
+<div class="max-w-6xl mx-auto space-y-8">
+    <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Active Catalog Loans</h2>
+        <p class="text-sm text-slate-500 font-light">Monitor circulation return periods and manage active check-in logs.
+        </p>
+    </div>
+
+    @if (TempData["ReturnSuccessCode"] != null)
+    {
+        <div
+            class="p-6 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl shadow-sm text-center max-w-md mx-auto space-y-2">
+            <span class="block text-xs uppercase tracking-widest font-bold text-emerald-600">Check-in Log Generated</span>
+            <div class="font-mono text-2xl font-extrabold tracking-wider text-blue-700">@TempData["ReturnSuccessCode"]</div>
+            <p class="text-xs text-slate-500">Copy this tracking code over into the Returns Desk window configuration to
+                process library count updates.</p>
+            </div>
+        }
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr
+                        class="bg-slate-50 border-b border-slate-200 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        <th class="p-4 pl-6">Loan ID</th>
+                        <th class="p-4">User</th>
+                        <th class="p-4">Book</th>
+                        <th class="p-4">Time Remaining</th>
+                        <th class="p-4">Status</th>
+                        <th class="p-4 pr-6 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
+                    @foreach (var loan in Model.ActiveLoansList)
+                    {
+                        var daysRemaining = (loan.DueDate - DateTime.Now).Days;
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="p-4 pl-6 font-mono text-xs font-bold text-blue-700">@loan.LoanId</td>
+                            <td class="p-4 font-mono text-xs text-slate-500">@loan.UserNumber</td>
+                            <td class="p-4 font-mono text-xs text-slate-500">@loan.BookNumber</td>
+                            <td class="p-4">
+                                @if (loan.Status == "Received")
+                                {
+                                    <span class="text-slate-400 text-xs font-light">Returned</span>
+                                }
+                                else if (daysRemaining >= 0)
+                                {
+                                    <span class="text-emerald-600 font-bold text-xs">@daysRemaining Days Left</span>
+                                }
+                                else
+                                {
+                                    <span class="text-rose-600 font-extrabold text-xs animate-pulse">Overdue by
+                                        @Math.Abs(daysRemaining) Days</span>
+                                    }
+                                </td>
+                                <td class="p-4">
+                                    <span
+                                        class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md @(loan.Status == "Active" ? "bg-blue-50 text-blue-600 border border-blue-200" : "bg-slate-100 text-slate-500")">
+                                        @loan.Status
+                                    </span>
+                                </td>
+                                <td class="p-4 pr-6 text-right">
+                                    @if (loan.Status == "Active")
+                                    {
+                                        <form method="post" class="inline">
+                                            <input type="hidden" name="loanId" value="@loan.LoanId" />
+                                            <button type="submit"
+                                                    class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium px-3 py-1.5 rounded-xl transition">
+                                                Mark Received
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>

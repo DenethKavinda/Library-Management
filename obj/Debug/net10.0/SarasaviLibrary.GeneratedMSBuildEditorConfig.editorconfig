@@ -47,6 +47,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlicmFyaWFuXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/SarasaviLibrary/Pages/Librarian/Loans.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlicmFyaWFuXExvYW5zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/SarasaviLibrary/Pages/Librarian/Reservations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlicmFyaWFuXFJlc2VydmF0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/SarasaviLibrary/Pages/Librarian/Returns.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlicmFyaWFuXFJldHVybnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/SarasaviLibrary/Pages/Librarian/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlicmFyaWFuXFVzZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -73,6 +85,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Projects/SarasaviLibrary/Pages/Users/Home.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnNcSG9tZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/SarasaviLibrary/Pages/Users/Reservation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnNcUmVzZXJ2YXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/SarasaviLibrary/Pages/_ViewImports.cshtml]
